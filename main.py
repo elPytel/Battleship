@@ -3,6 +3,7 @@
 Hra lode v terminalu s jednoduchym AI.
 '''
 
+import copy
 import Ships
 import AI
 
@@ -15,18 +16,19 @@ game.SetPlayer(2, AI.Player())
 
 # inicializace
 while True != False:
-	game.player1.Init(game.board.p1, game.Ships())
+	game.player1.Init(game.board.p1, copy.deepcopy( game.Ships() ) )
 	if game.ValidBoardPlayer(1):
 		break
 	game.ResetBoardPlayer(1)
 
-'''
 while True != False:
-	game.player2.Init(game.board.p2, game.Ships())
+	game.player2.Init(game.board.p2, copy.deepcopy( game.Ships() ))
 	if game.ValidBoardPlayer(2):
 		break
 	game.ResetBoardPlayer(2)
-'''
+	
+game.Print()
+exit()
 
 # hra
 if not game.PlayersSet():
@@ -37,7 +39,7 @@ while True != False:
 	hit = True
 	while hit == True:
 		# mel by posilat deep copy kvuli pravum
-		move = game.player1.Play(game.board.p1)
+		move = game.player1.Play( copy.deepcopy(game.board.p1) )
 		if game.ValidMove(1, move):
 			hit = not game.IsMiss(1, move)
 			game.ExecuteMove(1, move)
@@ -46,13 +48,13 @@ while True != False:
 			break
 		
 		# zabil ho?
-		if not game.Alive(game.player2):
+		if not game.Alive(2):
 			break
 		else:
 			game.board.Print()
 	
 	# zabil ho?
-	if not game.Alive(game.player2):
+	if not game.Alive(2):
 		break
 	else:
 		game.board.Print()
@@ -60,7 +62,7 @@ while True != False:
 	# hrac 2
 	hit = true
 	while hit == True:
-		move = game.player2.Play(game.board)
+		move = game.player2.Play( copy.deepcopy(game.board) )
 		if game.ValidMove(2, move):
 			game.ExecuteMove(2, move)
 		else:
@@ -68,13 +70,13 @@ while True != False:
 			break
 			
 		# zabil ho?
-		if not game.Alive(game.player1):
+		if not game.Alive(1):
 			break
 		else:
 			game.board.Print()
 	
 	# zabil ho?
-	if not game.Alive(game.player1):
+	if not game.Alive(1):
 		break
 	else:
 		game.board.Print()

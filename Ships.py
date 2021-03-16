@@ -170,7 +170,7 @@ class Board:
 		self.board_p2_ships = self.MakeBoard()
 		self.board_p2_enemy = self.MakeBoard()
 		self.p2[0] = self.board_p2_ships
-		self.p2[0] = self.board_p2_enemy
+		self.p2[1] = self.board_p2_enemy
 	
 	def MakeBoardPlayer(self, number):
 		if number == 1:
@@ -209,7 +209,6 @@ class Board:
 		
 		# is enemy board clear?
 		for row in enemy_board:
-			print(row)
 			for col in row:
 				if col != None:
 					ret = False
@@ -245,12 +244,65 @@ class Board:
 			index = index +1
 		print(" " + "-"*(2*BOARD_X_SIZE+1))
 		print()	
+		
+	def PrintPlayer(boards):
+		my_board = boards[0]
+		enemy_board = boards[1]
+		print(" ", end='')
+		for number in range(BOARD_X_SIZE):
+			print("", number+1, end='')
+		print("	 ", end='')
+		for number in range(BOARD_X_SIZE):
+			print("", number+1, end='')
+		
+		print()	
+		print(" " + "-"*(2*BOARD_X_SIZE+1), end='')
+		print("	", end='')
+		print(" " + "-"*(2*BOARD_X_SIZE+1))
+		index = 0
+		for y in range(BOARD_Y_SIZE):
+			letter = chr(ord("A") + index)
+			print(letter, end='')
+			print("|", end='')
+			for x in range(BOARD_X_SIZE):
+				if my_board[y][x] == None:
+					print(" |", end='')
+				elif my_board[y][x] == 0:
+					print("o|", end='')
+				elif my_board[y][x] == 1:
+					print("s|", end='')
+				elif my_board[y][x] == -1:
+					print("x|", end='')
+			print("	", end='')
+			letter = chr(ord("A") + index)
+			print(letter, end='')
+			print("|", end='')
+			for x in range(BOARD_X_SIZE):
+				if enemy_board[y][x] == None:
+					print(" |", end='')
+				elif enemy_board[y][x] == 0:
+					print("o|", end='')
+				elif enemy_board[y][x] == 1:
+					print("s|", end='')
+				elif enemy_board[y][x] == -1:
+					print("x|", end='')
+			print()
+			
+			index = index +1
+		print(" " + "-"*(2*BOARD_X_SIZE+1), end='')
+		print("	", end='')
+		print(" " + "-"*(2*BOARD_X_SIZE+1))
+		print()	
 				
 	def Print(self):
+		Board.PrintPlayer(self.p1)
+		Board.PrintPlayer(self.p2)
+		'''
 		Board.PrintBoard(self.board_p1_ships)
 		Board.PrintBoard(self.board_p1_enemy)
 		Board.PrintBoard(self.board_p2_ships)
 		Board.PrintBoard(self.board_p2_enemy)
+		'''
 
 class Game:
 	def __init__(self):
@@ -303,6 +355,12 @@ class Game:
 			return False
 		return True
 		
+	def Alive(self, player):
+		if player == 1:
+			return True if self.p1_lives > 0 else False
+		elif player == 2:
+			return True if self.p2_lives > 0 else False
+		
 	def IsMiss(self, player, move):
 		y = move[0]
 		x = move[1]
@@ -325,14 +383,18 @@ class Game:
 		y = move[0]
 		x = move[1]
 		if player == 1:
-			board = self.board.p2[0]
+			my_board = self.board.p1[1]
+			enemy_board = self.board.p2[0]
 		elif player == 2:
-			board = self.board.p1[0]
+			my_board = self.board.p2[1]
+			enemy_board = self.board.p1[0]
 		
-		if board[y][x] == 1:
-			board[y][x] = -1
+		if enemy_board[y][x] == 1:
+			enemy_board[y][x] = -1
+			my_board = -1
 		else:
-			board[y][x] = 0
+			enemy_board[y][x] = 0
+			my_board = 0
 	
 	def PrintShips(self):
 		for ship in self.ships:
