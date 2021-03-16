@@ -117,6 +117,24 @@ class Ship:
 				if box == 'x':
 					board[y][x] = 1
 		
+	# dostane pozici a prohleda okoli aby zjistil zda tam lezi validni lod.
+	def IsValidShip(myboard, y, x):
+		valid = True
+		if mybord[y][x] != 1:
+			valid = False
+			return ret
+		
+		positions = []
+		ship_type = -1
+		
+		#TODO
+		
+		
+		ret.append(valid)
+		ret.append(ship_type)
+		ret.append(positions)
+		return ret
+		
 	def Print(self):
 		print("Name:", self.name)
 		print("Quantity:", self.quantity)

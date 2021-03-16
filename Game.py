@@ -45,6 +45,47 @@ class Game:
 	def Ships(self):
 		return self.ships
 		
+	def IsValidSetOfShips(ship_types):
+		if not len(ship_types) > 0:
+			return False
+		
+		ret = True
+		game = Game()
+		game.MakeShips()
+		
+		my_ships = []	# [[name, quantity], ...]
+		
+		# kolik je jednotlivych typu?
+		ship_types.sort()
+		while len(ship_types) > 0:
+			name = copy(ship_types[0])
+			quantity = ship_types.count(name)
+			ship_types.remove(name)
+			ship = [name, quantity]
+			my_ships.append(ship)
+			
+		for ship in game.Ships():
+			index = 0
+			for i in range(len(my_ships)):
+				if my_ships[i][0] == ship.name:
+					index = i
+					break
+				elif i == len(my_ships)-1:				# chybejici typ
+					ret = False
+					return ret
+				
+			if ship.quantity != my_ships[index][1]:		# neodpovidajici pocet
+				ret = False
+				break
+			else: 
+				my_ships.pop(index)
+		
+		# zbyli nejake nezarazene?	
+		if len(my_ships) != 0:
+			ret = False
+		
+		return ret
+		
 	def PlayerLives(self, player):
 		if player == 1:
 			return Boards.Board.PlayerLives(self.board.p1[0])

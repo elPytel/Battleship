@@ -1,6 +1,7 @@
 # By Pytel
 
 import Ships
+import Game
 
 DEBUG = False
 BOARD_X_SIZE = 10
@@ -91,28 +92,40 @@ class Board:
 		enemy_board = boards[1]
 		# is my board set valid?
 		# TODO
-		"""
-		for row in my_board:
-			for col in row:
-				if col == 1:
-					Ship.Is
-		"""
-		'''	
-		for x in Board.BoardSize('x'):
-			for y in Board.BoardSize('y'):
+		positions = []
+		ships = []
+		ship_types = []
 		'''
-		# is enemy board clear?
-		for row in enemy_board:
-			for col in row:
-				if col != None:
-					ret = False
-					if DEBUG:
-						print("Enemy board is not clear!")
-					break
+		for x in range(Board.BoardSize('x') ):
+			for y in range(Board.BoardSize('y') ):
+				if my_board[y][x] == 1 and my_board[y][x] not in ships:
+					positions = Ships.Ship.IsValidShip(my_board, y, x)
+					# [[True/False], [positions...]]
+					if positions[0] == True:
+						ship_types.append(positions[1])
+						ships.append(positions[2])
+					else:
+						ret = False
+						break
 			if ret == False:
 				break
+			
+		if ret == True and not Game.Game.IsValidSetOfShips(ship_types):
+			ret = False
+		'''
+		if ret == True:
+		# is enemy board clear?
+			for row in enemy_board:
+				for col in row:
+					if col != None:
+						ret = False
+						if DEBUG:
+							print("Enemy board is not clear!")
+						break
+				if ret == False:
+					break
+			
 		return ret
-		
 	
 	def PlayerLives(board):
 		lives = 0

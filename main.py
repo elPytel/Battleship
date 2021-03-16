@@ -7,6 +7,7 @@ import copy
 import Game
 import Boards
 import AI
+import AI_old
 
 DEBUG = True
 
@@ -15,7 +16,7 @@ game = Game.Game()
 game.MakeBoards()
 game.MakeShips()
 game.SetPlayer(1, AI.Player())
-game.SetPlayer(2, AI.Player())
+game.SetPlayer(2, AI_old.Player())
 
 # inicializace
 while True != False:
@@ -38,12 +39,14 @@ if not game.PlayersSet():
 while True != False:
 	# hrac 1
 	hit = True
+	state = []
 	while hit == True:
-		# mel by posilat deep copy kvuli pravum
-		move = game.player1.Play( copy.deepcopy(game.board.p1) )
+		state = None		# 
+		move = game.player1.Play(copy.deepcopy(game.board.p1),  state)
 		if game.ValidMove(1, move):
 			hit = game.IsHit(1, move)
 			if hit:
+				state = ["hit"]
 				game.LowerLives(2)
 				print("It is a hit. Repeating turn!")
 			game.ExecuteMove(1, move)
@@ -60,8 +63,9 @@ while True != False:
 	
 	# hrac 2
 	hit = True
+	state = []
 	while hit == True:
-		move = game.player2.Play( copy.deepcopy(game.board.p2) )
+		move = game.player2.Play(copy.deepcopy(game.board.p2), state)
 		if game.ValidMove(2, move):
 			hit = game.IsHit(2, move)
 			if hit:

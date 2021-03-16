@@ -4,28 +4,26 @@ import random
 import Boards
 
 DEBUG = True
+BOARD_X_SIZE = 10
+BOARD_Y_SIZE = 10
 
 class Player:
 	def __init__(self):
 		self.board = Boards.Board()
 		self.my_board = None
 		self.enemy_board = None
-		self.my_ships = []
-		# TODO
-		self.shots = []			#[ [[y],[x],[True/False]], ...]
-		self.board = []
-		self.enemy_ships = []
+		self.ships = []
 	
 	def Init(self, boards, ships):
 		self.my_board = boards[0]
 		self.enemy_board = boards[1]
-		self.my_ships = ships
+		self.ships = ships
 		vectors = [ [1,0], [0,1], [-1,0], [0,-1]]
 		
 		# place all ships
-		while len(self.my_ships) > 0:
+		while len(self.ships) > 0:
 			direction = random.choice(vectors)
-			ship = random.choice(self.my_ships)
+			ship = random.choice(self.ships)
 			
 			if DEBUG:
 				print(direction)
@@ -36,15 +34,15 @@ class Player:
 			if ship.Quantity() == 0:
 				if DEBUG:
 					print("No ship of this type")
-				self.my_ships.remove(ship)
+				self.ships.remove(ship)
 				continue
 				
 			else:
 				valid = False
 				while valid == False:
 					position = [	
-						random.randrange(-1, Boards.Board.BoardSize('y')), 
-						random.randrange(-1, Boards.Board.BoardSize('x'))]
+						random.randrange(-1, BOARD_Y_SIZE), 
+						random.randrange(-1, BOARD_X_SIZE)]
 						
 					# pasuje tam?
 					valid = ship.DoesShipFitsToBoard(self.my_board, position, direction)	
@@ -79,18 +77,10 @@ class Player:
 		return coord
 	
 	def Play(self, boards, state):
-		# vyhodnoceni predchoziho tahu
-		if len(self.shots) != 0:
-			if state == "hit":
-				self.shots[-1][2] = True 
-			else:
-				self.shots[-1][2] = False
-		
 		self.my_board = boards[0]
 		self.enemy_board = boards[1]
 		
 		shot = self.Move()
-		self.shots.append([[shot[0]],[shot[1]],[None]])
 		return shot
 		
 

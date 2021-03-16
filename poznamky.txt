@@ -1,0 +1,42 @@
+Pridat hezni zpravy pro hrace.
+ zasahl, hraje znovu
+ zasahl, lod potopeny, hraje znovu
+
+AI
+Když obdrží zprávu že daná loď je mrtvá, tak si jí označí za potopenou a ohranici si pozice kolem ni tak, že tam již nebude střílet. 
+
+Jak budu reprezentovat lode?
+4*1, 3*2, 2*3, 1*4
+self.ships = [ 	['x'],
+				['x', 'x'],
+				['x', 'x', 'x'],
+				['x', 'x', 'x', 'x'], ]
+
+[
+[None, 'f', None],
+['f', 'x', 'f'],
+[None, 'f', None],
+],
+
+[
+[None, 'f', 'f', None],
+['f', 'x', 'x', 'f'],
+[None, 'f', 'f', None],
+],
+
+[
+[None, 'f', 'f', 'f', None],
+['f', 'x', 'x', 'x', 'f'],
+[None, 'f', 'f', 'f', None],
+],
+
+[
+[None, 'f', 'f', 'f', 'f', None],
+['f', 'x', 'x', 'x', 'x', 'f'],
+[None, 'f', 'f', 'f', 'f', None],
+],
+]
+
+[on_true] if [expression] else [on_false] 
+
+print('{0:2d}'.format(number+1), end='')
