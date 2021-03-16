@@ -1,7 +1,7 @@
 # By Pytel
 
 import random
-import Ships
+import Boards
 
 DEBUG = True
 BOARD_X_SIZE = 10
@@ -9,7 +9,7 @@ BOARD_Y_SIZE = 10
 
 class Player:
 	def __init__(self):
-		self.board = Ships.Board()
+		self.board = Boards.Board()
 		self.my_board = None
 		self.enemy_board = None
 		self.ships = []
@@ -29,7 +29,7 @@ class Player:
 				print(direction)
 				ship.Print()
 			
-			# Odstan tuto loď z vyctu
+			# Odstran tuto loď z vyctu
 			# TODO
 			if ship.Quantity() == 0:
 				if DEBUG:
@@ -53,14 +53,14 @@ class Player:
 					# umisteni
 					if valid:
 						ship.PlaceShipToBoard(self.my_board, position, direction)
-						Ships.Board.PrintBoard(self.my_board)
+						Boards.Board.PrintBoard(self.my_board)
 						ship.LowerQuantity()
 			
 		
 	def Unknouwn(self):
 		places = []
-		for y in range(BOARD_Y_SIZE):
-			for x in range(BOARD_X_SIZE):
+		for y in range(Boards.Board.BoardSize('y')):
+			for x in range(Boards.Board.BoardSize('x')):
 				if self.enemy_board[y][x] == None:
 					places.append([y,x])
 		return places

@@ -4,13 +4,14 @@ Hra lode v terminalu s jednoduchym AI.
 '''
 
 import copy
-import Ships
+import Game
+import Boards
 import AI
 
 DEBUG = True
 
 # new game with new players
-game = Ships.Game()
+game = Game.Game()
 game.MakeBoards()
 game.MakeShips()
 game.SetPlayer(1, AI.Player())
@@ -83,6 +84,7 @@ while True != False:
 
 print(" ---Final Bord--- ") 
 game.Print()
+game.PrintLives()
 '''
 
 '''
