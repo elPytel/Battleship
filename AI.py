@@ -57,12 +57,23 @@ class Player:
 						ship.LowerQuantity()
 			
 		
+	def Unknouwn(self):
+		places = []
+		for y in range(BOARD_Y_SIZE):
+			for x in range(BOARD_X_SIZE):
+				if self.enemy_board[y][x] == None:
+					places.append([y,x])
+		return places
 	
 	def Move(self):
+		coords = self.Unknouwn()
+		'''
 		# coord = [y,x]
 		coord = [	
-			random.randrange(1, BOARD_Y_SIZE), 
-			random.randrange(1, BOARD_X_SIZE)]
+			random.randrange(0, BOARD_Y_SIZE), 
+			random.randrange(0, BOARD_X_SIZE)]
+		'''
+		coord = random.choice(coords)
 		return coord
 	
 	def Play(self, boards):

@@ -7,6 +7,8 @@ import copy
 import Ships
 import AI
 
+DEBUG = True
+
 # new game with new players
 game = Ships.Game()
 game.MakeBoards()
@@ -27,8 +29,6 @@ while True != False:
 		break
 	game.ResetBoardPlayer(2)
 	
-game.Print()
-exit()
 
 # hra
 if not game.PlayersSet():
@@ -41,39 +41,38 @@ while True != False:
 		# mel by posilat deep copy kvuli pravum
 		move = game.player1.Play( copy.deepcopy(game.board.p1) )
 		if game.ValidMove(1, move):
-			hit = not game.IsMiss(1, move)
+			hit = game.IsHit(1, move)
+			if hit:
+				game.LowerLives(2)
+				print("It is a hit. Repeating turn!")
 			game.ExecuteMove(1, move)
 		else:
 			print("Invalid move!")
 			break
-		
 		# zabil ho?
 		if not game.Alive(2):
 			break
-		else:
-			game.board.Print()
 	
-	# zabil ho?
+	# zabil ho?	
 	if not game.Alive(2):
 		break
-	else:
-		game.board.Print()
 	
 	# hrac 2
-	hit = true
+	hit = True
 	while hit == True:
-		move = game.player2.Play( copy.deepcopy(game.board) )
+		move = game.player2.Play( copy.deepcopy(game.board.p2) )
 		if game.ValidMove(2, move):
+			hit = game.IsHit(2, move)
+			if hit:
+				game.LowerLives(1)
+				print("It is a hit. Repeating turn!")
 			game.ExecuteMove(2, move)
 		else:
 			print("Invalid move!")
 			break
-			
 		# zabil ho?
 		if not game.Alive(1):
 			break
-		else:
-			game.board.Print()
 	
 	# zabil ho?
 	if not game.Alive(1):

@@ -191,6 +191,12 @@ class Board:
 			print("Y:", y, "X:", x)
 			print(board[y][x])
 		return True if board[y][x] == None else False
+		
+	def IsHit(board, y, x):
+		if 0 and DEBUG:
+			print("Y:", y, "X:", x)
+			print(board[y][x])
+		return True if board[y][x] == 1 else False
 	
 	def ValidCoord(y, x):
 		if y < 0 or BOARD_Y_SIZE <= y:
@@ -218,6 +224,17 @@ class Board:
 			if ret == False:
 				break
 		return ret
+		
+	
+	def PlayerLives(board):
+		lives = 0
+		
+		for line in board:
+			for box in line:
+				if box == 1:
+					lives = lives +1
+		
+		return lives
 		
 	def PrintBoard(board):
 		print(" ", end='')
@@ -345,11 +362,31 @@ class Game:
 		
 	def Ships(self):
 		return self.ships
+		
+	def PlayerLives(self, player):
+		if player == 1:
+			return Board.PlayerLives(self.board.p1[0])
+		elif player == 2:
+			return Board.PlayerLives(self.board.p2[0])
+		else:
+			return False
+		
+	def LowerLives(self, player):
+		if player == 1:
+			self.p1_lives = self.p1_lives -1
+			return True
+		elif player == 2:
+			self.p2_lives = self.p2_lives -1
+			return True
+		else:
+			return False
 	
-	def ValidBoardPlayer(self, number):
-		if number == 1:
+	def ValidBoardPlayer(self, player):
+		if player == 1:
+			self.p1_lives = self.PlayerLives(player)
 			return Board.ValidBoard(self.board.p1)
-		elif number == 2:
+		elif player == 2:
+			self.p2_lives = self.PlayerLives(player)
 			return Board.ValidBoard(self.board.p2)
 		else:
 			return False
@@ -368,11 +405,21 @@ class Game:
 			return Board.IsFree(self.board.p2[0], y, x)
 		elif player == 2:
 			return Board.IsFree(self.board.p1[0], y, x)
+			
+	def IsHit(self, player, move):
+		y = move[0]
+		x = move[1]
+		if player == 1:
+			return Board.IsHit(self.board.p2[0], y, x)
+		elif player == 2:
+			return Board.IsHit(self.board.p1[0], y, x)
 		
 	def ValidMove(self, player, move):
 		# TODO
 		y = move[0]
 		x = move[1]
+		if not Board.ValidCoord(y, x):
+			return False
 		'''
 		if player == 1:
 		elif player == 2:
@@ -391,10 +438,10 @@ class Game:
 		
 		if enemy_board[y][x] == 1:
 			enemy_board[y][x] = -1
-			my_board = -1
+			my_board[y][x] = -1
 		else:
 			enemy_board[y][x] = 0
-			my_board = 0
+			my_board[y][x] = 0
 	
 	def PrintShips(self):
 		for ship in self.ships:
@@ -413,41 +460,6 @@ game.PrintShips()
 '''
 
 """
-Jak budu reprezentovat lode?
-4*1, 3*2, 2*3, 1*4
-self.ships = [ 	['x'],
-				['x', 'x'],
-				['x', 'x', 'x'],
-				['x', 'x', 'x', 'x'], ]
-
-[
-[None, 'f', None],
-['f', 'x', 'f'],
-[None, 'f', None],
-],
-
-[
-[None, 'f', 'f', None],
-['f', 'x', 'x', 'f'],
-[None, 'f', 'f', None],
-],
-
-[
-[None, 'f', 'f', 'f', None],
-['f', 'x', 'x', 'x', 'f'],
-[None, 'f', 'f', 'f', None],
-],
-
-[
-[None, 'f', 'f', 'f', 'f', None],
-['f', 'x', 'x', 'x', 'x', 'f'],
-[None, 'f', 'f', 'f', 'f', None],
-],
-]
-
-[on_true] if [expression] else [on_false] 
-
-print('{0:2d}'.format(number+1), end='')
 
 Ships file END
 """
