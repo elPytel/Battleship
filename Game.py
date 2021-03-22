@@ -182,10 +182,12 @@ class Game:
 		self.board.Print()
 
 # test
+if __name__ == '__main__':
+	game = Game()
+	game.MakeBoards()
+	game.MakeShips()
+	game.Print()
+	game.PrintShips()
 '''
-game = Game()
-game.MakeBoards()
-game.MakeShips()
-game.Print()
-game.PrintShips()
+END
 '''
