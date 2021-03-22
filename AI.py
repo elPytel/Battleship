@@ -69,12 +69,6 @@ class Player:
 	
 	def Move(self):
 		coords = self.Unknouwn()
-		'''
-		# coord = [y,x]
-		coord = [	
-			random.randrange(0, BOARD_Y_SIZE), 
-			random.randrange(0, BOARD_X_SIZE)]
-		'''
 		coord = random.choice(coords)
 		return coord
 	
@@ -95,21 +89,25 @@ class Player:
 		
 
 # test
-'''
-game = Ships.Game()
-game.MakeBoards()
-game.MakeShips()
-game.SetPlayer(1, Player())
-while True != False:
-	game.player1.Init(game.board.p1, game.Ships())
-	game.Print()
-	if game.ValidBoardPlayer(1):
-		break
-	game.ResetBoardPlayer(1)
+if __name__ == '__main__':
+	import Game
+	game = Game.Game()
+	game.MakeBoards()
+	game.MakeShips()
+	game.SetPlayer(1, Player())
+	while True != False:
+		game.player1.Init(game.board.p1, game.Ships())
+		game.Print()
+		if game.ValidBoardPlayer(1):
+			break
+		game.ResetBoardPlayer(1)
 
 #game.Print()
-'''
 	
 '''
-
+		# coord = [y,x]
+		coord = [	
+			random.randrange(0, BOARD_Y_SIZE), 
+			random.randrange(0, BOARD_X_SIZE)]
+END
 '''
